@@ -2,7 +2,7 @@
 
 Uma homenagem nostálgica ao inesquecível Tamagotchi dos anos 90! Este projeto recria a experiência do bichinho virtual que marcou uma geração, agora em uma versão web moderna.
 
-> 🎮 [Jogue Agora](https://neo-tamagotchi-iexo.vercel.app)
+> 🎮 [Jogue Agora](https://neo-tamagotchi-delta.vercel.app)
 
 ## 📖 Sobre o Projeto
 
