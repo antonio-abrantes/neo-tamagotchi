@@ -1,0 +1,31 @@
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo gradiente -->
+  <rect width="1200" height="630" fill="url(#paint0_linear)" />
+  
+  <!-- Círculo decorativo -->
+  <circle cx="600" cy="315" r="200" fill="white" fill-opacity="0.1" />
+  
+  <!-- Título -->
+  <text x="600" y="250" text-anchor="middle" font-family="Arial" font-size="72" font-weight="bold" fill="white">
+    Neo Tamagotchi
+  </text>
+  
+  <!-- Subtítulo -->
+  <text x="600" y="350" text-anchor="middle" font-family="Arial" font-size="32" fill="white" fill-opacity="0.9">
+    Seu pet virtual em uma versão moderna
+  </text>
+  
+  <!-- Ícone do Tamagotchi -->
+  <g transform="translate(525, 100) scale(0.5)">
+    <path d="M150 0C67.157 0 0 67.157 0 150s67.157 150 150 150 150-67.157 150-150S232.843 0 150 0zm0 270c-66.274 0-120-53.726-120-120S83.726 30 150 30s120 53.726 120 120-53.726 120-120 120z" fill="white"/>
+    <circle cx="150" cy="150" r="60" fill="white"/>
+  </g>
+  
+  <!-- Definição do gradiente -->
+  <defs>
+    <linearGradient id="paint0_linear" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF69B4"/>
+      <stop offset="100%" stop-color="#9370DB"/>
+    </linearGradient>
+  </defs>
+</svg> 
