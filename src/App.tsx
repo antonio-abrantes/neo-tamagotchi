@@ -223,7 +223,7 @@ function GameContainer() {
 
   return (
     <div className={`container-game w-screen h-screen inset-0 bg-gradient-to-b ${settings.backgroundColor} flex items-center justify-center p-4`}>
-      <div className="w-full pl-4">
+      <div className="game-controls-github w-full pl-4">
         <a
           href="https://github.com/antonio-abrantes/neo-tamagotchi"
           target="_blank"
