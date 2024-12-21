@@ -25,7 +25,7 @@ export function useTamagotchiImage() {
     const maxImages = IMAGES_COUNT[safeStage];
     const validIndex = Math.min(Math.max(1, safeIndex), maxImages);
 
-    return `/src/assets/${safeGender}/${safeStage}/${validIndex}.png`;
+    return `/assets/${safeGender}/${safeStage}/${validIndex}.png`;
   }, []);
 
   return {
