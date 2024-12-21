@@ -15,6 +15,8 @@ import { useSettings } from '@/contexts/SettingsContext';
 import { useStatsDecay } from '@/hooks/useStatsDecay';
 import { useEvolution } from '@/hooks/useEvolution';
 import { GenderSelectModal } from '@/components/modals/GenderSelectModal';
+import { HelpButton } from './components/HelpButton';
+import { Github } from 'lucide-react';
 
 function GameContainer() {
   const { gameState, setGameState, resetGameState, initialState } = useGameState();
@@ -221,8 +223,19 @@ function GameContainer() {
 
   return (
     <div className={`fixed inset-0 bg-gradient-to-b ${settings.backgroundColor} flex items-center justify-center p-4`}>
+      <a
+        href="https://github.com/antonio-abrantes/neo-tamagotchi"
+        target="_blank"
+        rel="noopener noreferrer"
+        className="fixed top-4 left-4 flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
+      >
+        <Github className="h-5 w-5" />
+        <span className="text-sm font-medium">Star on GitHub</span>
+      </a>
+
       <div className="w-full max-w-[550px] bg-white rounded-lg relative shadow-lg">
-        <div className="absolute top-4 right-4 z-10">
+        <div className="absolute top-4 right-4 z-10 flex gap-2">
+          <HelpButton />
           <SettingsButton />
         </div>
 
