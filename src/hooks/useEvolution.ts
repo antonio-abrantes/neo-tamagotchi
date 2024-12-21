@@ -1,15 +1,17 @@
 import { useEffect, useRef } from 'react';
 import { TamagotchiStage } from '@/types/tamagotchi';
 import { useSettings } from '@/contexts/SettingsContext';
+import { useTamagotchiImage } from './useTamagotchiImage';
 
 export function useEvolution(
   stats: { hunger: number; happiness: number; energy: number; hygiene: number },
   currentStage: TamagotchiStage,
-  setStage: (stage: TamagotchiStage) => void,
+  setStage: (stage: TamagotchiStage, imageIndex: number) => void,
   setIsAlive: (isAlive: boolean) => void
 ) {
   const { settings } = useSettings();
   const lastEvolutionTime = useRef<number>(Date.now());
+  const { getRandomImageIndex } = useTamagotchiImage();
 
   // Verifica se o Tamagotchi morreu
   useEffect(() => {
@@ -48,7 +50,8 @@ export function useEvolution(
         // Só evolui se a média dos status for boa
         if (averageStats > 50) {
           const nextStage = stages[currentIndex + 1];
-          setStage(nextStage);
+          const newImageIndex = getRandomImageIndex(nextStage);
+          setStage(nextStage, newImageIndex);
           lastEvolutionTime.current = now;
         }
       }
@@ -57,5 +60,5 @@ export function useEvolution(
     const evolutionInterval = setInterval(checkEvolution, 1000); // Checa a cada segundo
 
     return () => clearInterval(evolutionInterval);
-  }, [currentStage, settings.evolutionTime, settings.evolutionTimeUnit, settings.isPaused, stats, setStage]);
+  }, [currentStage, settings.evolutionTime, settings.evolutionTimeUnit, settings.isPaused, stats, setStage, getRandomImageIndex]);
 } 

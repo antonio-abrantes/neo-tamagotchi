@@ -1,4 +1,5 @@
 export type TamagotchiStage = 'egg' | 'baby' | 'child' | 'teen' | 'adult';
+export type TamagotchiGender = 'boy' | 'girl';
 
 export type GameAction = 'feed' | 'play' | 'sleep' | 'clean';
 
@@ -13,7 +14,9 @@ export interface TamagotchiStats {
 
 export interface TamagotchiState {
   name: string;
+  gender: TamagotchiGender;
   stage: TamagotchiStage;
+  imageIndex: number;
   stats: TamagotchiStats;
   isAlive: boolean;
   isSleeping: boolean;

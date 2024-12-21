@@ -1,23 +1,18 @@
 import { Progress } from '@/components/ui/progress';
 import { Icons } from '@/components/icons';
-import { TamagotchiStage, TamagotchiStats } from '@/types/tamagotchi';
+import { TamagotchiStage, TamagotchiStats, TamagotchiGender } from '@/types/tamagotchi';
 import { useSettings } from '@/contexts/SettingsContext';
+import { useTamagotchiImage } from '@/hooks/useTamagotchiImage';
 import { cn } from '@/lib/utils';
 
 interface TamagotchiDisplayProps {
   name: string;
+  gender: TamagotchiGender;
   stage: TamagotchiStage;
+  imageIndex: number;
   stats: TamagotchiStats;
   isSleeping: boolean;
 }
-
-const stageIcons = {
-  egg: Icons.Egg,
-  baby: Icons.Baby,
-  child: Icons.Child,
-  teen: Icons.User,
-  adult: Icons.UserCog,
-} as const;
 
 const stats = [
   { id: 'hunger', label: 'Fome', icon: 'Cookie' },
@@ -26,9 +21,16 @@ const stats = [
   { id: 'hygiene', label: 'Higiene', icon: 'Droplets' },
 ] as const;
 
-export function TamagotchiDisplay({ name, stage, stats: statsValues, isSleeping }: TamagotchiDisplayProps) {
-  const StageIcon = stageIcons[stage];
+export function TamagotchiDisplay({ 
+  name, 
+  gender,
+  stage, 
+  imageIndex,
+  stats: statsValues, 
+  isSleeping 
+}: TamagotchiDisplayProps) {
   const { settings } = useSettings();
+  const { getImagePath } = useTamagotchiImage();
 
   return (
     <div className="space-y-8">
@@ -36,23 +38,29 @@ export function TamagotchiDisplay({ name, stage, stats: statsValues, isSleeping 
       <div className="text-center space-y-4">
         <h2 className="text-2xl font-bold text-gray-800">{name}</h2>
         <div className="relative flex justify-center mb-6">
-          {StageIcon && (
-            <div className={cn(
-              "w-[45px] h-[45px]",
-              "flex items-center justify-center",
-              "transition-all duration-300",
-              "relative",
-              isSleeping && "opacity-50",
-              settings.iconColor
-            )}>
-              <StageIcon className="w-full h-full" />
-              {isSleeping && (
-                <div className="absolute -top-2 -right-2 transform -rotate-12">
-                  <Icons.Moon className="w-[13px] h-[13px] text-blue-500 animate-pulse" />
-                </div>
-              )}
-            </div>
-          )}
+          <div className={cn(
+            "w-[65px] h-[64px]",
+            "flex items-center justify-center",
+            "transition-all duration-300",
+            "relative",
+            "animate-pulse-slow",
+            isSleeping && "opacity-50"
+          )}>
+            <img
+              src={getImagePath(gender, stage, imageIndex)}
+              alt={`${name} - ${stage}`}
+              className="w-full h-full object-contain"
+              onError={(e) => {
+                const target = e.target as HTMLImageElement;
+                target.src = getImagePath('boy', stage, 1);
+              }}
+            />
+            {isSleeping && (
+              <div className="absolute -top-2 -right-2 transform -rotate-12">
+                <Icons.Moon className="w-[13px] h-[13px] text-blue-500 animate-pulse" />
+              </div>
+            )}
+          </div>
         </div>
       </div>
 

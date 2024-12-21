@@ -26,10 +26,11 @@ function GameContainer() {
   useEvolution(
     gameState.stats,
     gameState.stage,
-    (newStage) => {
+    (newStage, newImageIndex) => {
       setGameState(prev => ({
         ...prev,
         stage: newStage,
+        imageIndex: newImageIndex,
       }));
       toast({
         title: 'Evolução!',
@@ -173,7 +174,9 @@ function GameContainer() {
           <div className="mb-8">
             <TamagotchiDisplay
               name={settings.name}
+              gender={gameState.gender}
               stage={gameState.stage}
+              imageIndex={gameState.imageIndex}
               stats={gameState.stats}
               isSleeping={gameState.isSleeping}
             />

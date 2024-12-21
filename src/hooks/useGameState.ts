@@ -1,10 +1,13 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
-import { TamagotchiState, TamagotchiStage } from '@/types/tamagotchi';
+import { TamagotchiState, TamagotchiStage, TamagotchiGender } from '@/types/tamagotchi';
 import { useCallback, useState } from 'react';
+import { useTamagotchiImage } from './useTamagotchiImage';
 
 const initialState: TamagotchiState = {
   name: 'Meu Tamagotchi',
+  gender: 'boy' as TamagotchiGender,
   stage: 'egg' as TamagotchiStage,
+  imageIndex: 1,
   stats: {
     hunger: 100,
     happiness: 100,
@@ -20,15 +23,22 @@ const initialState: TamagotchiState = {
 export function useGameState() {
   const [gameState, setGameState] = useLocalStorage<TamagotchiState>('tamagotchi-game-state', initialState);
   const [isPaused, setIsPaused] = useState(false);
+  const { getRandomImageIndex } = useTamagotchiImage();
 
   const resetGameState = useCallback(() => {
     // Força a limpeza do localStorage
     localStorage.removeItem('tamagotchi-game-state');
     localStorage.removeItem('tamagotchi-settings');
     
+    // Gera um gênero aleatório e uma imagem aleatória
+    const randomGender: TamagotchiGender = Math.random() < 0.5 ? 'boy' : 'girl';
+    const randomImageIndex = getRandomImageIndex('egg');
+
     // Força um reload do estado inicial
     const freshState: TamagotchiState = {
       ...initialState,
+      gender: randomGender,
+      imageIndex: randomImageIndex,
       stats: {
         hunger: 100,
         happiness: 100,
@@ -49,7 +59,7 @@ export function useGameState() {
     setTimeout(() => {
       window.location.reload();
     }, 100);
-  }, [setGameState]);
+  }, [setGameState, getRandomImageIndex]);
 
   return {
     gameState,
