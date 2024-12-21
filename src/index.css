@@ -57,16 +57,19 @@ body {
 }
 
 @media (min-width: 400px) {
+  body {
+    overflow: hidden;
+  }
   .game-controls-github {
     position: absolute;
-    top: 20px;
-    left: 20px;
+    top: 10px;
   }
 }
 
 @media (max-width: 400px) {
   body {
     overflow-y: scroll;
+    overflow-x: hidden;
   }
   .container-game {
     padding: 0 !important;
