@@ -64,10 +64,10 @@ export function SettingsButton() {
     resetGameState();
     
     // Mostra o toast
-    toast({
-      title: "Tudo Resetado!",
-      description: "Todas as configurações e progresso foram resetados com sucesso.",
-    });
+    // toast({
+    //   title: "Tudo Resetado!",
+    //   description: "Todas as configurações e progresso foram resetados com sucesso.",
+    // });
     
     // Fecha o modal
     setOpen(false);
