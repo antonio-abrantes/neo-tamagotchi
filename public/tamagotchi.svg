@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="512" height="512" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Fundo oval -->
+  <ellipse cx="256" cy="256" rx="240" ry="220" fill="#FFE0E9"/>
+  
+  <!-- Corpo do ovo -->
+  <path d="M256 120C180 120 120 220 120 300C120 380 180 420 256 420C332 420 392 380 392 300C392 220 332 120 256 120Z" fill="#FF69B4"/>
+  
+  <!-- Olhos -->
+  <circle cx="200" cy="260" r="20" fill="black"/>
+  <circle cx="312" cy="260" r="20" fill="black"/>
+  <circle cx="195" cy="255" r="6" fill="white"/>
+  <circle cx="307" cy="255" r="6" fill="white"/>
+  
+  <!-- Boca feliz -->
+  <path d="M220 320C220 320 256 360 292 320" stroke="black" stroke-width="12" stroke-linecap="round"/>
+  
+  <!-- Brilho -->
+  <circle cx="150" cy="180" r="15" fill="white" fill-opacity="0.6"/>
+  <circle cx="180" cy="160" r="8" fill="white" fill-opacity="0.4"/>
+</svg> 

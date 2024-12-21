@@ -17,6 +17,7 @@ import {
   Ghost,
   Play,
   Pause,
+  Shuffle,
   LucideProps
 } from 'lucide-react';
 import { FC } from 'react';
@@ -44,5 +45,6 @@ export const Icons: IconsType = {
   Trash2,
   Ghost,
   Play,
-  Pause
+  Pause,
+  Shuffle
 }; 

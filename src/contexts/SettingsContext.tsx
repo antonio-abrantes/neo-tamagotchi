@@ -62,7 +62,6 @@ export function useSettings() {
   }
   return context;
 }
-
 // Constantes para velocidade de decaimento (por segundo)
 export const DECAY_RATES = {
   slow: 0.05,    // 0.05% por segundo

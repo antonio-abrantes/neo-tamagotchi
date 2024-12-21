@@ -1,10 +1,10 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { TamagotchiDisplay } from '@/components/TamagotchiDisplay';
 import { GameControls } from '@/components/GameControls';
 import { FeedModal } from '@/components/modals/FeedModal';
 import { PlayModal } from '@/components/modals/PlayModal';
 import { GameOverModal } from '@/components/modals/GameOverModal';
-import { GameAction } from '@/types/tamagotchi';
+import { GameAction, TamagotchiGender, TamagotchiStage } from '@/types/tamagotchi';
 import { useToast } from '@/hooks/use-toast';
 import { useGameState } from '@/hooks/useGameState';
 import { Toaster } from '@/components/ui/toaster';
@@ -14,13 +14,65 @@ import { SettingsProvider } from '@/contexts/SettingsContext';
 import { useSettings } from '@/contexts/SettingsContext';
 import { useStatsDecay } from '@/hooks/useStatsDecay';
 import { useEvolution } from '@/hooks/useEvolution';
+import { GenderSelectModal } from '@/components/modals/GenderSelectModal';
 
 function GameContainer() {
-  const { gameState, setGameState, resetGameState } = useGameState();
+  const { gameState, setGameState, resetGameState, initialState } = useGameState();
   const [showFeedModal, setShowFeedModal] = useState(false);
   const [showPlayModal, setShowPlayModal] = useState(false);
+  const [showGenderModal, setShowGenderModal] = useState(false);
   const { settings } = useSettings();
   const { toast } = useToast();
+
+  // Verifica se precisa mostrar o modal de gênero
+  useEffect(() => {
+    const checkGenderModal = () => {
+      const hasGameState = localStorage.getItem('tamagotchi-game-state');
+      const shouldShowModal = !hasGameState || !gameState.gender;
+      
+      if (shouldShowModal) {
+        setShowGenderModal(true);
+      }
+    };
+
+    checkGenderModal();
+    window.addEventListener('storage', checkGenderModal);
+    
+    return () => {
+      window.removeEventListener('storage', checkGenderModal);
+    };
+  }, [gameState.gender]);
+
+  const handleGenderSelect = useCallback((gender: TamagotchiGender | 'random') => {
+    const selectedGender = gender === 'random' 
+      ? (Math.random() < 0.5 ? 'boy' : 'girl') as TamagotchiGender
+      : gender;
+
+    // Reseta TUDO com o gênero selecionado
+    setGameState({
+      ...initialState,
+      gender: selectedGender,
+      stats: {
+        hunger: 100,
+        happiness: 100,
+        energy: 100,
+        hygiene: 100,
+      },
+      lastInteraction: new Date(),
+      birthDate: new Date(),
+      isAlive: true,
+      isSleeping: false,
+      stage: 'egg' as TamagotchiStage,
+      imageIndex: 1,
+    });
+    
+    setShowGenderModal(false);
+
+    toast({
+      title: 'Gênero Selecionado!',
+      description: `Seu Tamagotchi será ${selectedGender === 'boy' ? 'um menino' : 'uma menina'}!`,
+    });
+  }, [setGameState, toast]);
 
   // Adiciona o hook de evolução
   useEvolution(
@@ -156,7 +208,11 @@ function GameContainer() {
   }, [setGameState, toast]);
 
   const handleReset = useCallback(() => {
+    // Primeiro limpa o estado
     resetGameState();
+    // Força o modal a aparecer
+    setShowGenderModal(true);
+    // Mostra o toast
     toast({
       title: 'Jogo Reiniciado',
       description: 'Seu Tamagotchi voltou ao estágio inicial.',
@@ -205,6 +261,11 @@ function GameContainer() {
         <GameOverModal
           open={!gameState.isAlive}
           onReset={handleReset}
+        />
+
+        <GenderSelectModal
+          open={showGenderModal}
+          onSelect={handleGenderSelect}
         />
 
         <Toaster />

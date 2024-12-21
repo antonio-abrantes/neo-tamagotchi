@@ -4,6 +4,7 @@ import { TamagotchiStage, TamagotchiStats, TamagotchiGender } from '@/types/tama
 import { useSettings } from '@/contexts/SettingsContext';
 import { useTamagotchiImage } from '@/hooks/useTamagotchiImage';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 interface TamagotchiDisplayProps {
   name: string;
@@ -31,6 +32,36 @@ export function TamagotchiDisplay({
 }: TamagotchiDisplayProps) {
   const { settings } = useSettings();
   const { getImagePath } = useTamagotchiImage();
+  const [isFlipped, setIsFlipped] = useState(false);
+
+  useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+
+    const flip = () => {
+      setIsFlipped(prev => !prev);
+      const nextFlip = Math.floor(Math.random() * (40000 - 15000) + 15000);
+      timeoutId = setTimeout(flip, nextFlip);
+    };
+
+    // Inicia o primeiro flip
+    timeoutId = setTimeout(flip, Math.random() * 15000);
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId);
+    };
+  }, []);
+
+  useEffect(() => {
+    const setRandomFlipInterval = () => {
+      // Gera um tempo aleatório entre 15 e 40 segundos
+      const randomTime = Math.floor(Math.random() * (40000 - 15000 + 1) + 15000);
+      setIsFlipped(prev => !prev);
+      setTimeout(setRandomFlipInterval, randomTime);
+    };
+
+    const initialTimeout = setTimeout(setRandomFlipInterval, Math.random() * 15000);
+    return () => clearTimeout(initialTimeout);
+  }, []);
 
   return (
     <div className="space-y-8">
@@ -44,12 +75,19 @@ export function TamagotchiDisplay({
             "transition-all duration-300",
             "relative",
             "animate-pulse-slow",
+            isFlipped && "scale-x-[-1]",
             isSleeping && "opacity-50"
           )}>
             <img
               src={getImagePath(gender, stage, imageIndex)}
               alt={`${name} - ${stage}`}
-              className="w-full h-full object-contain"
+              className={cn(
+                "w-[65px] h-[64px]",
+                "flex items-center justify-center",
+                "relative",
+                isFlipped && "scale-x-[-1]",
+                isSleeping && "opacity-50",
+              )}
               onError={(e) => {
                 const target = e.target as HTMLImageElement;
                 target.src = getImagePath('boy', stage, 1);

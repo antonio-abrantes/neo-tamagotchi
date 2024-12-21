@@ -1,11 +1,10 @@
 import { useLocalStorage } from '@/hooks/useLocalStorage';
 import { TamagotchiState, TamagotchiStage, TamagotchiGender } from '@/types/tamagotchi';
 import { useCallback, useState } from 'react';
-import { useTamagotchiImage } from './useTamagotchiImage';
 
-const initialState: TamagotchiState = {
+export const initialState: TamagotchiState = {
   name: 'Meu Tamagotchi',
-  gender: 'boy' as TamagotchiGender,
+  gender: undefined as unknown as TamagotchiGender,
   stage: 'egg' as TamagotchiStage,
   imageIndex: 1,
   stats: {
@@ -23,48 +22,33 @@ const initialState: TamagotchiState = {
 export function useGameState() {
   const [gameState, setGameState] = useLocalStorage<TamagotchiState>('tamagotchi-game-state', initialState);
   const [isPaused, setIsPaused] = useState(false);
-  const { getRandomImageIndex } = useTamagotchiImage();
 
   const resetGameState = useCallback(() => {
-    // Força a limpeza do localStorage
+    // Remove TUDO do localStorage
     localStorage.removeItem('tamagotchi-game-state');
     localStorage.removeItem('tamagotchi-settings');
     
-    // Gera um gênero aleatório e uma imagem aleatória
-    const randomGender: TamagotchiGender = Math.random() < 0.5 ? 'boy' : 'girl';
-    const randomImageIndex = getRandomImageIndex('egg');
-
-    // Força um reload do estado inicial
-    const freshState: TamagotchiState = {
+    // Força um estado inicial limpo
+    const freshState = {
       ...initialState,
-      gender: randomGender,
-      imageIndex: randomImageIndex,
-      stats: {
-        hunger: 100,
-        happiness: 100,
-        energy: 100,
-        hygiene: 100,
-      },
+      gender: undefined as unknown as TamagotchiGender,
       lastInteraction: new Date(),
       birthDate: new Date(),
-      isAlive: true,
-      isSleeping: false,
-      stage: 'egg' as TamagotchiStage,
     };
 
-    // Força a atualização do estado
+    // Atualiza o estado
     setGameState(freshState);
 
-    // Força um reload da página após um breve delay
-    setTimeout(() => {
-      window.location.reload();
-    }, 100);
-  }, [setGameState, getRandomImageIndex]);
+    // Força a verificação do localStorage
+    window.dispatchEvent(new Event('storage'));
+  }, [setGameState]);
 
   return {
     gameState,
     setGameState,
     resetGameState,
-    isPaused,
+    isPaused: !gameState.gender || isPaused,
+    setIsPaused,
+    initialState,
   };
 }
