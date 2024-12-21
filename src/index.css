@@ -64,6 +64,9 @@ body {
     position: absolute;
     top: 10px;
   }
+  .modal-settings, .modal-help {
+    padding-top: 3rem;
+  }
 }
 
 @media (max-width: 400px) {
