@@ -18,7 +18,7 @@ import { useState } from 'react';
 import { useSettings } from '@/contexts/SettingsContext';
 import { useGameState } from '@/hooks/useGameState';
 import { DecaySpeed } from '@/types/tamagotchi';
-import { useToast } from '@/hooks/use-toast';
+// import { useToast } from '@/hooks/use-toast';
 
 const colorOptions = [
   { label: 'Azul', value: 'text-blue-500' },
@@ -51,7 +51,7 @@ export function SettingsButton() {
   const [open, setOpen] = useState(false);
   const { settings, updateSettings, resetSettings, togglePause } = useSettings();
   const { resetGameState } = useGameState();
-  const { toast } = useToast();
+  // const { toast } = useToast();
 
   const handleReset = () => {
     // Primeiro limpa TUDO do localStorage
