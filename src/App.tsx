@@ -31,7 +31,7 @@ function GameContainer() {
     const checkGenderModal = () => {
       const hasGameState = localStorage.getItem('tamagotchi-game-state');
       const shouldShowModal = !hasGameState || !gameState.gender;
-      
+
       if (shouldShowModal) {
         setShowGenderModal(true);
       }
@@ -39,14 +39,14 @@ function GameContainer() {
 
     checkGenderModal();
     window.addEventListener('storage', checkGenderModal);
-    
+
     return () => {
       window.removeEventListener('storage', checkGenderModal);
     };
   }, [gameState.gender]);
 
   const handleGenderSelect = useCallback((gender: TamagotchiGender | 'random') => {
-    const selectedGender = gender === 'random' 
+    const selectedGender = gender === 'random'
       ? (Math.random() < 0.5 ? 'boy' : 'girl') as TamagotchiGender
       : gender;
 
@@ -67,7 +67,7 @@ function GameContainer() {
       stage: 'egg' as TamagotchiStage,
       imageIndex: 1,
     });
-    
+
     setShowGenderModal(false);
 
     toast({
@@ -171,8 +171,8 @@ function GameContainer() {
         });
         break;
       case 'clean':
-        setGameState(prev => updateStats(prev, { 
-          hygiene: Math.min(100, prev.stats.hygiene + 50) 
+        setGameState(prev => updateStats(prev, {
+          hygiene: Math.min(100, prev.stats.hygiene + 50)
         }));
         toast({
           title: 'Limpeza concluída!',
@@ -183,7 +183,7 @@ function GameContainer() {
   }, [gameState.isSleeping, gameState.isAlive, gameState.stats.energy, setGameState, toast, settings.isPaused]);
 
   const handleFeed = useCallback((hungerIncrease: number, happinessIncrease: number) => {
-    setGameState((prev) => 
+    setGameState((prev) =>
       updateStats(prev, {
         hunger: Math.min(100, prev.stats.hunger + hungerIncrease),
         happiness: Math.min(100, prev.stats.happiness + happinessIncrease),
@@ -197,7 +197,7 @@ function GameContainer() {
   }, [setGameState, toast]);
 
   const handlePlay = useCallback((happinessIncrease: number, energyDecrease: number) => {
-    setGameState((prev) => 
+    setGameState((prev) =>
       updateStats(prev, {
         happiness: Math.min(100, prev.stats.happiness + happinessIncrease),
         energy: Math.max(0, prev.stats.energy - energyDecrease),
@@ -222,19 +222,22 @@ function GameContainer() {
   }, [resetGameState, toast]);
 
   return (
-    <div className={`fixed inset-0 bg-gradient-to-b ${settings.backgroundColor} flex items-center justify-center p-4`}>
-      <a
-        href="https://github.com/antonio-abrantes/neo-tamagotchi"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="fixed top-4 left-4 flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200"
-      >
-        <Github className="h-5 w-5" />
-        <span className="text-sm font-medium">Star on GitHub</span>
-      </a>
+    <div className={`container-game w-screen h-screen inset-0 bg-gradient-to-b ${settings.backgroundColor} flex items-center justify-center p-4`}>
+      <div className="w-full pl-4">
+        <a
+          href="https://github.com/antonio-abrantes/neo-tamagotchi"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-4 w-[160px] top-4 left-4 flex items-center gap-2 px-4 py-2 bg-white rounded-lg border border-gray-200 hover:border-gray-300 hover:bg-gray-50 transition-all duration-200 text-left"
+        >
+          <Github className="h-5 w-5" />
+          <span className="text-sm font-medium">Star on GitHub</span>
+        </a>
+      </div>
 
-      <div className="w-full max-w-[550px] bg-white rounded-lg relative shadow-lg">
-        <div className="absolute top-4 right-4 z-10 flex gap-2">
+
+      <div className="game-controls w-full max-w-[550px] bg-white rounded-lg relative shadow-lg">
+        <div className="game-controls-buttons absolute top-4 right-4 z-10 flex gap-2">
           <HelpButton />
           <SettingsButton />
         </div>

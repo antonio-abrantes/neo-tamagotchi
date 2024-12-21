@@ -80,7 +80,7 @@ export function SettingsButton() {
       </div>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="modal-settings">
           <DialogHeader>
             <DialogTitle>Configurações</DialogTitle>
           </DialogHeader>

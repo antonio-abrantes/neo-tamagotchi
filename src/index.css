@@ -30,8 +30,47 @@ body {
   margin: 0;
   display: flex;
   place-items: center;
+  justify-content: center;
   min-width: 320px;
+}
+
+.container-game {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   min-height: 100vh;
+  min-width: 280px;
+  min-height: 824px;
+}
+
+.modal-settings, .modal-help {
+  max-height: 100vh;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+@media (max-width: 768px) {
+  .modal-settings, .modal-help {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  body {
+    overflow-y: scroll;
+  }
+  .container-game {
+    padding: 0 !important;
+  }
+
+  .game-controls {
+    width: 100% !important;
+    padding: 0 !important;
+  }
+  .game-controls-buttons {
+    top: -55px !important;
+  }
 }
 
 h1 {

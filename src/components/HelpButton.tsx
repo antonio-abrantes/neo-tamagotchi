@@ -21,7 +21,7 @@ export function HelpButton() {
       </button>
 
       <Dialog open={open} onOpenChange={setOpen}>
-        <DialogContent>
+        <DialogContent className="modal-help">
           <DialogHeader>
             <DialogTitle>Como usar as configurações</DialogTitle>
           </DialogHeader>
